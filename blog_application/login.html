@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body id="login-page-body"> 
+     <nav>
+        <h1><a href="home.html">tan_blog</a></h1>
+        <a href="./login.html">login</a>
+        <a href="./register.html">register</a>
+        <a href="./create_blog.html">create blog</a>
+        <a href="./dashboard.html">dashboard</a>
+        <br>
+        
+    </nav>
+    <h2 id="login-heading">Login now</h2>
+     <div class="login-container">
+    <form id="loginForm">
+          <div class="login-card">
+        <label for="email">Email:
+            <input class="login-input" id="email"   type="email" placeholder="enter email" name="email">
+        </label><br><br>
+        <label for="password">password:
+            <input class="login-input" id="password"  type="password" placeholder="enter password" name="password">
+        </label>
+        <br><br>
+        <button id="login-button" type="submit">Login</button>
+        <br><br>
+        <p>Don't have an account?<b><a id="link-register" href="./register.html">Register</a></b></p>
+          </div>
+    </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

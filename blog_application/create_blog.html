@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create blog</title>
+     <link rel="stylesheet" href="style.css">
+</head> 
+<body id="create-blog-body">
+     <nav>
+        <h1><a href="home.html">tan_blog</a></h1>
+        <a href="./login.html">login</a>
+        <a href="./register.html">register</a>
+        <a href="./create_blog.html">create blog</a>
+        <a href="./dashboard.html">dashboard</a>
+        <br>
+        
+    </nav>
+    <h2 id="create-blog-heading">Create a New Blog</h2>
+    <div class="create-blog-container">
+    <form id="blogForm">
+        <div class="create-blog-card">
+        <label for="title">Blog title :
+            <input class="create-blog-input" id="title"  type="text" placeholder="enter blog title">
+        </label><br><br>
+        <label for="category">Select category:
+            <select name="category" id="category">
+                <option value="news">News</option>
+                <option value="fitness">Fitness</option>
+                <option value="food">Food</option>
+                <option value="dance">Dance</option>
+            </select>
+        </label>
+        <br><br>
+        <label for="content">
+            <textarea name="content" id="text-area" placeholder="enter content"></textarea>
+        </label><br><br>
+        <br>
+         
+        <label for="add-image" id="add-image">Add image:
+        <input class="create-blog-input" type="file" id="image"  placeholder="add image of your choice">
+        </label>
+        <br><br>
+        <button id="publish-button" type="submit">Publish</button>
+        </div>
+    </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
