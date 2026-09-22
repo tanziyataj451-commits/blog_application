@@ -1,15 +1,34 @@
+
 let form=document.getElementById("loginForm")
 if(form){
-form.addEventListener("submit",function(){
+form.addEventListener("submit",function(event){
     event.preventDefault();
     let email=document.getElementById("email").value
     let password=document.getElementById("password").value
 
-    alert("form submitted successfully")
-    location.reload()
+    fetch("http://localhost:3000/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            email:email,
+            password:password
+        })
+    })
+    .then(response=>response.json())
+    .then(data=>{
+        alert(data.message)
+    })
+    .catch(error=>{
+        console.log(error)
+        alert("backend connection failed")
+    })
+    // alert("form submitted successfully")
+    // location.reload()
 })
 }
-
+//register 
 let register=document.getElementById("RegisterForm")
 if(register){
     register.addEventListener("submit",function(){
@@ -22,9 +41,28 @@ if(register){
         alert("passwords doesnot match")
         return;
     }
+    fetch("http://localhost:3000/register",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            name:name,
+            email:email,
+            password:password
+        })
+    })
+    .then(response => response.json())
+    .then(data=>{
+        alert(data.message)
+    })
+    .catch(error =>{
+        console.log(error)
+        alert("backend connection failed")
+    })
 
-        alert("successfully registered")
-        location.reload()
+        // alert("successfully registered")
+        // location.reload()
         
     })
 }
@@ -41,8 +79,18 @@ if(publish){
         formData.append("category",category)
         formData.append("content",content)
         formData.append("image",image)
-        alert("blog created successfully")
-        location.reload()
+        fetch("http://localhost:3000/blogs",{
+            method:"POST",
+            body:formData
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            alert(data.message)
+        })
+        .catch(error=>{
+            console.log(error)
+            alert("backend connection failed")
+        })
     })
 }
 
