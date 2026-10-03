@@ -103,3 +103,141 @@ hamburger.addEventListener("click",function(){
     navLinks.classList.toggle("active")
 })
 }
+
+/* MODULE 4: DISPLAY, UPDATE AND DELETE BLOGS */
+
+const blogContainer = document.getElementById("blogContainer");
+
+async function loadBlogs() {
+    if (!blogContainer) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/blogs");
+        const blogs = await response.json();
+
+        blogContainer.replaceChildren();
+
+        if (blogs.length === 0) {
+            blogContainer.textContent = "No blogs available.";
+            return;
+        }
+
+        blogs.forEach(blog => {
+            const card = document.createElement("div");
+            card.className = "blog-card";
+
+            const title = document.createElement("h2");
+            title.textContent = blog.title;
+            const image = document.createElement("img");
+
+            if (blog.image) {
+              image.src = `http://localhost:3000/uploads/${encodeURIComponent(blog.image)}`;
+              image.alt = blog.title;
+              image.style.width = "100%";
+              image.style.maxHeight = "220px";
+              image.style.objectFit = "cover";
+              image.onerror = () => {
+               image.style.display = "none";
+    };
+}
+
+ 
+
+            const category = document.createElement("p");
+            category.textContent = "Category: " + blog.category;
+
+            const content = document.createElement("p");
+            content.textContent = blog.content;
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+
+            editButton.addEventListener("click", async () => {
+                const newTitle = prompt("Enter new title:", blog.title);
+                if (newTitle === null) return;
+
+                const newCategory = prompt(
+                    "Enter new category:",
+                    blog.category
+                );
+                if (newCategory === null) return;
+
+                const newContent = prompt(
+                    "Enter new content:",
+                    blog.content
+                );
+                if (newContent === null) return;
+
+                if (!newTitle.trim() || !newCategory.trim() ||
+                    !newContent.trim()) {
+                    alert("All fields are required.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(
+                        `http://localhost:3000/blogs/${blog._id}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                title: newTitle.trim(),
+                                category: newCategory.trim(),
+                                content: newContent.trim()
+                            })
+                        }
+                    );
+
+                    const result = await response.json();
+                    alert(result.message);
+
+                    if (response.ok) loadBlogs();
+                } catch (error) {
+                    console.log(error);
+                    alert("Could not update blog.");
+                }
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+
+            deleteButton.addEventListener("click", async () => {
+                const confirmed = confirm(
+                    `Delete "${blog.title}" permanently?`
+                );
+
+                if (!confirmed) return;
+
+                try {
+                    const response = await fetch(
+                        `http://localhost:3000/blogs/${blog._id}`,
+                        { method: "DELETE" }
+                    );
+
+                    const result = await response.json();
+                    alert(result.message);
+
+                    if (response.ok) loadBlogs();
+                } catch (error) {
+                    console.log(error);
+                    alert("Could not delete blog.");
+                }
+            });
+            if(blog.image){
+                card.appendChild(image);
+            }
+            
+
+            card.append(title, category, content, editButton, deleteButton);
+            blogContainer.appendChild(card);
+        });
+
+    } catch (error) {
+        console.log(error);
+        blogContainer.textContent = "Failed to load blogs.";
+    }
+}
+
+loadBlogs();

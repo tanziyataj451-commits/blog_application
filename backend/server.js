@@ -7,13 +7,24 @@ require("dotenv").config();
 
 const User = require("./models/User");
 const Blog = require("./models/Blog");
-
+const path=require("path")
 const app = express();
 
+app.use("/uploads",express.static(path.join(__dirname,"uploads")))
+app.get("/check-uploads",(req,res)=>{
+    const fs=require("fs")
+    const folder=path.join(__dirname,"uploads")
+    res.json({
+        folderExits:
+        fs.existsSync(folder),
+        files:fs.existsSync(folder)? fs.readdirSync(folder):[]
+    })
+})
+const upload = multer({ dest: path.join(__dirname,"uploads") });
+console.log("serving uploads from :",path.join(__dirname,"uploads"))
 app.use(cors());
 app.use(express.json());
 
-const upload = multer({ dest: "uploads/" });
 
 
 // MongoDB connection
@@ -162,6 +173,59 @@ app.get("/blogs/:id", async (req, res) => {
     }
 });
 
+// UPDATE BLOG
+app.put("/blogs/:id", async (req, res) => {
+    try {
+        const { title, category, content } = req.body;
+
+        const blog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { title, category, content },
+            { new: true, runValidators: true }
+        );
+
+        if (!blog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        res.json({
+            message: "Blog updated successfully",
+            blog
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Blog update failed"
+        });
+    }
+});
+
+
+// DELETE BLOG
+app.delete("/blogs/:id", async (req, res) => {
+    try {
+        const blog = await Blog.findByIdAndDelete(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        res.json({
+            message: "Blog deleted successfully"
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Blog deletion failed"
+        });
+    }
+});
 
 // Start server
 app.listen(3000, () => {
