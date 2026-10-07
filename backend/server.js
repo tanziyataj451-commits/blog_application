@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const multer = require("multer");
@@ -24,6 +25,29 @@ const upload = multer({ dest: path.join(__dirname,"uploads") });
 console.log("serving uploads from :",path.join(__dirname,"uploads"))
 app.use(cors());
 app.use(express.json());
+const JWT_SECRET = process.env.JWT_SECRET;
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({
+            message: "Access denied. Please login."
+        });
+    }
+
+    jwt.verify(token, JWT_SECRET, (error, user) => {
+        if (error) {
+            return res.status(403).json({
+                message: "Invalid or expired token."
+            });
+        }
+
+        req.user = user;
+        next();
+    });
+}
 
 
 
@@ -69,6 +93,7 @@ app.post("/register", async (req, res) => {
 
 
 // Login
+// Login
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -92,8 +117,26 @@ app.post("/login", async (req, res) => {
             });
         }
 
+        // Create JWT token
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                email: user.email
+            },
+            JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        );
+
         res.json({
-            message: "Login successful"
+            message: "Login successful",
+            token: token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         });
 
     } catch (error) {
@@ -105,18 +148,47 @@ app.post("/login", async (req, res) => {
     }
 });
 
+// PROFILE
+app.get("/profile", authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId)
+            .select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.json(user);
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Failed to get profile"
+        });
+    }
+});
+
+
+
+
+
+
 
 // Create Blog
-app.post("/blogs", upload.single("image"), async (req, res) => {
+app.post("/blogs", authenticateToken, upload.single("image"), async (req, res) =>  {
     try {
         const { title, category, content } = req.body;
 
         const blog = new Blog({
-            title,
-            category,
-            content,
-            image: req.file ? req.file.filename : ""
-        });
+    title,
+    category,
+    content,
+    image: req.file ? req.file.filename : null,
+    userId: req.user.userId
+});
 
         await blog.save();
 
@@ -135,9 +207,11 @@ app.post("/blogs", upload.single("image"), async (req, res) => {
 
 
 // Get all blogs
-app.get("/blogs", async (req, res) => {
+app.get("/blogs", authenticateToken, async (req, res) =>  {
     try {
-        const blogs = await Blog.find();
+        const blogs = await Blog.find({
+    userId: req.user.userId
+});
 
         res.json(blogs);
 
@@ -174,21 +248,30 @@ app.get("/blogs/:id", async (req, res) => {
 });
 
 // UPDATE BLOG
-app.put("/blogs/:id", async (req, res) => {
+// UPDATE BLOG
+app.put("/blogs/:id", authenticateToken, async (req, res) => {
     try {
         const { title, category, content } = req.body;
+
+        const existingBlog = await Blog.findById(req.params.id);
+
+        if (!existingBlog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        if (existingBlog.userId.toString() !== req.user.userId) {
+            return res.status(403).json({
+                message: "You can only edit your own blog"
+            });
+        }
 
         const blog = await Blog.findByIdAndUpdate(
             req.params.id,
             { title, category, content },
             { new: true, runValidators: true }
         );
-
-        if (!blog) {
-            return res.status(404).json({
-                message: "Blog not found"
-            });
-        }
 
         res.json({
             message: "Blog updated successfully",
@@ -197,6 +280,7 @@ app.put("/blogs/:id", async (req, res) => {
 
     } catch (error) {
         console.log(error);
+
         res.status(500).json({
             message: "Blog update failed"
         });
@@ -205,15 +289,24 @@ app.put("/blogs/:id", async (req, res) => {
 
 
 // DELETE BLOG
-app.delete("/blogs/:id", async (req, res) => {
+// DELETE BLOG
+app.delete("/blogs/:id", authenticateToken, async (req, res) => {
     try {
-        const blog = await Blog.findByIdAndDelete(req.params.id);
+        const existingBlog = await Blog.findById(req.params.id);
 
-        if (!blog) {
+        if (!existingBlog) {
             return res.status(404).json({
                 message: "Blog not found"
             });
         }
+
+        if (existingBlog.userId.toString() !== req.user.userId) {
+            return res.status(403).json({
+                message: "You can only delete your own blog"
+            });
+        }
+
+        await Blog.findByIdAndDelete(req.params.id);
 
         res.json({
             message: "Blog deleted successfully"
@@ -221,12 +314,12 @@ app.delete("/blogs/:id", async (req, res) => {
 
     } catch (error) {
         console.log(error);
+
         res.status(500).json({
             message: "Blog deletion failed"
         });
     }
 });
-
 // Start server
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");

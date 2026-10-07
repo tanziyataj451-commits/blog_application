@@ -16,13 +16,16 @@ form.addEventListener("submit",function(event){
             password:password
         })
     })
-    .then(response=>response.json())
+    
+    .then(response => response.json())
     .then(data=>{
-        alert(data.message)
-    })
-    .catch(error=>{
-        console.log(error)
-        alert("backend connection failed")
+        alert(data.message);
+        if(data.token){
+            localStorage.setItem("token",data.token);
+            localStorage.setItem("user",JSON.stringify(data.user))
+            window.location.href = "dashboard.html";
+
+        }
     })
     // alert("form submitted successfully")
     // location.reload()
@@ -31,7 +34,7 @@ form.addEventListener("submit",function(event){
 //register 
 let register=document.getElementById("RegisterForm")
 if(register){
-    register.addEventListener("submit",function(){
+    register.addEventListener("submit",function(event){
         event.preventDefault();
     let name=document.getElementById("name").value
     let email=document.getElementById("email").value
@@ -51,15 +54,16 @@ if(register){
             email:email,
             password:password
         })
-    })
-    .then(response => response.json())
+    }).then(response=>response.json())
     .then(data=>{
         alert(data.message)
     })
-    .catch(error =>{
+    .catch(error=>{
         console.log(error)
         alert("backend connection failed")
     })
+    
+  
 
         // alert("successfully registered")
         // location.reload()
@@ -68,7 +72,7 @@ if(register){
 }
 let publish=document.getElementById("blogForm")
 if(publish){
-    publish.addEventListener("submit",function(){
+    publish.addEventListener("submit",function(event){
         event.preventDefault();
         let title=document.getElementById("title").value;
         let category=document.getElementById("category").value;
@@ -79,10 +83,13 @@ if(publish){
         formData.append("category",category)
         formData.append("content",content)
         formData.append("image",image)
-        fetch("http://localhost:3000/blogs",{
-            method:"POST",
-            body:formData
-        })
+        fetch("http://localhost:3000/blogs", {
+    method: "POST",
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
+    body: formData
+})
         .then(response=>response.json())
         .then(data=>{
             alert(data.message)
@@ -93,6 +100,34 @@ if(publish){
         })
     })
 }
+
+// PROFILE
+async function loadProfile() {
+    try {
+        const response = await fetch("http://localhost:3000/profile", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const user = await response.json();
+
+        console.log("Logged in user:", user);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.href = "login.html";
+}
+
+
 
 
 //hamburger
@@ -112,7 +147,11 @@ async function loadBlogs() {
     if (!blogContainer) return;
 
     try {
-        const response = await fetch("http://localhost:3000/blogs");
+        const response = await fetch("http://localhost:3000/blogs", {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+});
         const blogs = await response.json();
 
         blogContainer.replaceChildren();
@@ -180,7 +219,8 @@ async function loadBlogs() {
                         {
                             method: "PUT",
                             headers: {
-                                "Content-Type": "application/json"
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem("token")}`
                             },
                             body: JSON.stringify({
                                 title: newTitle.trim(),
@@ -211,11 +251,12 @@ async function loadBlogs() {
                 if (!confirmed) return;
 
                 try {
-                    const response = await fetch(
-                        `http://localhost:3000/blogs/${blog._id}`,
-                        { method: "DELETE" }
-                    );
-
+                    const response = await fetch(`http://localhost:3000/blogs/${blog._id}`, {
+    method: "DELETE",
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+})
                     const result = await response.json();
                     alert(result.message);
 
