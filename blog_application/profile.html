@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="profile-page-body">
+
+    <nav>
+        <h1><a href="home.html">tan_blog</a></h1>
+
+        <a href="./login.html">login</a>
+        <a href="./register.html">register</a>
+        <a href="./create_blog.html">create blog</a>
+        <a href="./dashboard.html">dashboard</a>
+        <a href="./profile.html">profile</a>
+    </nav>
+
+    <h2 id="profile-heading">My Profile</h2>
+
+    <div class="profile-container">
+        <div class="profile-card">
+
+            <h3 id="profile-name">Loading...</h3>
+
+            <p>
+                <strong>Email:</strong>
+                <span id="profile-email"></span>
+            </p>
+
+            <button onclick="logout()">Logout</button>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

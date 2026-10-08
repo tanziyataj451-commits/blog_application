@@ -1,457 +1,572 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-html,body{
-    height: 100%;
+
+html,
+body {
     width: 100%;
+    min-height: 100%;
 }
 
-/*navbar*/
-nav{
-    height: 80px;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    min-height: 72px;
     width: 100%;
-    background-color: black;
-    color:white;
+    background: linear-gradient(135deg, #111827, #312e81);
+    color: white;
+
     display: flex;
-    align-items:center;
-    justify-content:space-evenly;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 6%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
+nav h1 {
+    margin: 0;
+}
 
-a{
+nav h1 a {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+a {
     text-decoration: none;
-  color:white;
-    font-size: 20px;
-    
-}
-h1{
-    text-align: left;
-}
-form{
-text-align: left;
-margin:20px 20px
+    color: white;
 }
 
-#addImg{
-    
-    font-size: 15px;
-
-}
-#img_home{
-    /* height: 100%;
-    width: 100%; */
-    padding-top: 10px; 
+.nav-links {
     display: flex;
-    align-items: start;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links a,
+nav > a {
+    font-size: 15px;
+    color: #e5e7eb;
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover,
+nav > a:hover {
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   HOME PAGE
+========================= */
+
+#img_home {
+    width: 100%;
+    padding: 25px 5%;
+    display: flex;
     justify-content: center;
 }
 
-#button_dash{
-    color:white;
-    background-color: black;
+#img_home img {
+    width: 100%;
+    max-width: 1300px;
+    height: 550px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   GENERAL HEADINGS
+========================= */
+
+#login-heading,
+#register-heading,
+#create-blog-heading,
+#profile-heading {
+    text-align: center;
+    font-size: 34px;
+    margin: 35px 0;
+    color: #111827;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#login-page-body,
+#register-page-body,
+#create-blog-body,
+#profile-page-body {
+    background: #f5f7fb;
+}
+
+.login-container,
+.register-container,
+.create-blog-container,
+.profile-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px 50px;
+}
+
+.login-card,
+.register-card,
+.create-blog-card,
+.profile-card {
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.12);
+    border: 1px solid #e5e7eb;
+}
+
+/* Login */
+
+.login-card {
+    width: 380px;
+    padding: 35px;
+    text-align: center;
+}
+
+.login-input {
+    width: 100%;
+    height: 42px;
+    margin-top: 8px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+.login-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+#login-button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    height: 42px;
+    width: 100px;
     border: none;
-    font-family: 'Courier New', Courier, monospace;
-    height: 35px;
-    padding: 10px;
-   text-align: center;
-   margin-left: 20px;
-   margin-top: 10px;
-
-
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
 }
-/* dashboard page*/
-/* blog cards styling*/
 
-
-.card-grid{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 20px;
-    align-items: stretch;
+#login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
 }
-#blogContainer{
+
+#link-register,
+#login-link {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+#link-register:hover,
+#login-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   REGISTER
+========================= */
+
+.register-card {
+    width: 400px;
+    padding: 35px;
+    text-align: center;
+}
+
+.register-input {
+    width: 100%;
+    height: 42px;
+    margin-top: 8px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+.register-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+#register-button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    height: 42px;
+    width: 100px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* =========================
+   CREATE BLOG
+========================= */
+
+.create-blog-card {
+    width: 500px;
+    padding: 35px;
+    text-align: center;
+}
+
+.create-blog-input {
+    width: 100%;
+    height: 42px;
+    margin-top: 8px;
+    padding: 0 12px;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+#create-blog-body label {
+    display: block;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+#category {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin-top: 8px;
+}
+
+#text-area {
+    width: 100%;
+    min-height: 150px;
+    resize: vertical;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-family: inherit;
+}
+
+#text-area:focus,
+#category:focus,
+.create-blog-input:focus {
+    outline: none;
+    border-color: #6366f1;
+}
+
+input[type="file"] {
+    width: 100%;
+    margin-top: 8px;
+    color: #374151;
+}
+
+#publish-button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    height: 42px;
+    width: 110px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+#publish-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-main {
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding-bottom: 40px;
+}
+
+.dashboard-main > h1 {
+    text-align: center;
+    font-size: 32px;
+    margin: 35px 10px;
+    color: #111827;
+}
+
+#blog_btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6%;
+    margin-bottom: 25px;
+}
+
+#blog_btn h3 {
+    color: #6b7280;
+}
+
+#button_dash,
+#blog_btn button,
+.profile-card button,
+.blog-card button {
+    background: #111827;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+#button_dash:hover,
+#blog_btn button:hover,
+.profile-card button:hover,
+.blog-card button:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   BLOG GRID
+========================= */
+
+#blogContainer {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
-    padding: 30px;
+    padding: 20px 6%;
 }
-.blog-card{
-    background-color:rgb(199, 195, 195);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    min-height: 200px;
+
+.blog-card {
+    background: white;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 7px 25px rgba(15, 23, 42, 0.08);
+    transition: 0.25s ease;
+    overflow: hidden;
 }
-.blog-card h4{
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.13);
+}
+
+.blog-card h2 {
+    color: #111827;
     font-size: 22px;
-    margin-bottom: 15px;
-}
-.blog-card p{
-    line-height: 1.5;
     margin: 10px 0;
 }
-.blog-card img{
+
+.blog-card p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.blog-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     display: block;
     margin-bottom: 15px;
 }
 
-#blog_btn{
-   
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 30px;
-
-
-}
-.dashboard-main{
-    padding-top: 10px;
-    background-color:white;
-}
-/*login */
-
-#login-heading{
-    text-align: center;
-    font-size: 35px;
-    margin-top: 30px;
-    
-}
-.login-card{
-    padding-top: 20px;
-    height: 300px;
-    width: 300px;
-    background-color:white;
-    text-align: center;
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    
-
-}
-#link-register{
-    color:black;
-    font-width: 600;
-    text-decoration: none;
-}
-#link-register:hover{
-    text-decoration: underline;
-}
-#login-button{
-    background-color: black;
-    color: white;
-    
-    font-size: 15px;
-    height: 30px;
-    width: 65px;
-    border: none;
-    border-radius: 4px;
-}
-.login-container{
-    
-    height: 60%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px;
-}
-.login-input{
-    height: 30px;
-    margin-left: 10px;
-    background-color: #fafafa;
-    border:1px solid;
-    text-align: left;
-    border-radius: 5px;
-    padding-left: 10px;
-    
-}
-#login-page-body{
-    background-color: #f5f5f5;
+.blog-card button {
+    margin: 8px 5px 0 0;
 }
 
-/* register page */
+/* =========================
+   PROFILE
+========================= */
 
-
-#register-heading{
-    text-align: center;
-    font-size: 35px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    
-}
-.register-card{
-    margin-top: 30px;
-    padding-top: 20px;
-    height: auto;
-    width: 350px;
-    background-color:white;
-    text-align: center;
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    padding-bottom: 20px; 
-}
-.register-container{
-     height: 60%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px;
-}
-#login-link{
-    color:black;
-    font-width: 600;
-    text-decoration: none;
-}
-#login-link:hover{
-    text-decoration: underline;
-}
-#register-button{
-    background-color: black;
-    color: white;
-    font-size: 15px;
-    height: 30px;
-    width: 70px;
-    border: none;
-    border-radius: 4px;
-}
-.register-input{
-    height: 30px;
-    margin-left: 10px;
-    background-color: #fafafa;
-    border:1px solid;
-    text-align: left;
-    border-radius: 5px;
-    padding-left: 10px;
-    
-}
-#register-page-body{
-    background-color: #f5f5f5;
-}
-
-
-
-/*create blog page */
-
-#create-blog-heading{
-    text-align: center;
-    font-size: 35px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    
-}
-.create-blog-card{
-    margin-top: 30px;
-    padding-top: 20px;
-    height: auto;
+.profile-card {
     width: 400px;
-    background-color:white;
+    padding: 40px;
     text-align: center;
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5); 
-}
-.create-blog-container{
-     height: 60%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px;
-    
-}
-#publish-button{
-    background-color: black;
-    color: white;
-    font-size: 15px;
-    height: 30px;
-    width: 70px;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-.create-blog-input{
-    height: 30px;
-    margin-left: 10px;
-    background-color: #fafafa;
-    border:1px solid;
-    text-align: left;
-    border-radius: 5px;  
-}
- input[type="file"]{
-    color: transparent;
-    margin-left: 100px;
-    
- }
- #text-area{
-  height: 100px;
-  width: 250px;
- }
- #add-image{
-    display:inline-block;
-    padding-left: 8px;
- }
- #create-blog-page-body{
-    background-color: #f5f5f5;
 }
 
-/*footer */
-footer{
-    background-color: #1a1e29;
-    color: #ffffff;
-    padding: 20px 0;
-    margin-top: auto;
+.profile-card h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #111827;
+}
+
+.profile-card p {
+    margin: 15px 0;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.profile-card button {
+    margin-top: 15px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #111827;
+    color: white;
+    padding: 25px 0;
     width: 100%;
 }
-.footer-content{
+
+.footer-content {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 25px;
     font-size: 14px;
 }
-.footer-links a{
-    color: #a0aec0;
-    text-decoration: none;
+
+.footer-links a {
+    color: #9ca3af;
     margin-left: 20px;
-    transition: color 0.2 ease;
-}
-.footer-links a:hover{
-    color: #ffffff;
-
-}
-@media (max-width:600px) {
-    .footer-content{
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-    .footer-links a{
-        margin: 0 10px;
-    }
-    
+    transition: 0.2s;
 }
 
-
-/* responsive design*/
-@media (max-width:600px) {
-    nav{
-        height: auto;
-        min-height: 60px;
-        flex-wrap: wrap;
-        padding: 10px 5px;
-        gap: 8px;
-    }
-    nav a{
-        font-size: 14px;
-    }
-    /* Dashboard cards*/
-    .card-grid{
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 10px;
-    }
-    #card1,#card2,#card3{
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    /*images*/
-    #img_home img{
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-    }
-    /*login*/
-    .login-card{
-        width: 90%;
-        max-width: 300px;
-    }
-    .login-input{
-        max-width: 180px;
-    }
-    /* register*/
-    .register-card{
-        width: 90%;
-        max-width: 350px;
-    }
-    .register-input{
-        max-width: 180px;
-    }
-    /*create blog */
-    .create-blog-card{
-        width: 90%;
-        max-width: 400px;
-    }
-    .create-blog-input{
-        max-width: 180px;
-    }
-    #text-area{
-        width: 90%;
-        max-width: 250px;
-    }
-    input[type="file"]{
-        margin-left: 0;
-        max-width: 100%;
-    }
-    /* footer*/
-    .footer-content{
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-    .footer-links a{
-        margin: 0 10px;
-    }
-    
+.footer-links a:hover {
+    color: white;
 }
 
+/* =========================
+   HAMBURGER
+========================= */
 
-/*hamburger*/
-.hamburger{
+.hamburger {
     display: none;
     cursor: pointer;
 }
-.hamburger span{
+
+.hamburger span {
     display: block;
     width: 25px;
     height: 3px;
     background-color: white;
     margin: 5px;
+    border-radius: 2px;
 }
-.nav-links{
-    display: flex;
-    gap: 25px;
-}
-@media (max-width:600px) {
-    nav{
-        justify-content: space-between;
-        padding: 10px 15px;
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    nav {
+        min-height: 65px;
+        padding: 12px 18px;
+        flex-wrap: wrap;
     }
-    .hamburger{
+
+    nav h1 a {
+        font-size: 23px;
+    }
+
+    .hamburger {
         display: block;
-        cursor: pointer;
     }
-    .nav-links{
+
+    .nav-links {
         display: none;
         width: 100%;
         flex-direction: column;
-        text-align: center;
         gap: 15px;
         padding: 15px 0;
+        text-align: center;
     }
-    .nav-links.active{
+
+    .nav-links.active {
         display: flex;
-        flex-direction: column;
     }
-    
+
+    #img_home {
+        padding: 15px;
+    }
+
+    #img_home img {
+        height: 300px;
+        border-radius: 14px;
+    }
+
+    #login-heading,
+    #register-heading,
+    #create-blog-heading,
+    #profile-heading {
+        font-size: 28px;
+        margin: 25px 0;
+    }
+
+    .login-card,
+    .register-card,
+    .create-blog-card,
+    .profile-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 25px;
+    }
+
+    #blog_btn {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    #blogContainer {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 18px;
+    }
+
+    .blog-card img {
+        height: 190px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .footer-links a {
+        margin: 0 8px;
+    }
 }

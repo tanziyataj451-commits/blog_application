@@ -12,16 +12,17 @@ const path=require("path")
 const app = express();
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")))
-app.get("/check-uploads",(req,res)=>{
-    const fs=require("fs")
-    const folder=path.join(__dirname,"uploads")
-    res.json({
-        folderExits:
-        fs.existsSync(folder),
-        files:fs.existsSync(folder)? fs.readdirSync(folder):[]
-    })
-})
-const upload = multer({ dest: path.join(__dirname,"uploads") });
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "uploads"));
+    },
+    filename: function (req, file, cb) {
+        const uniqueName = Date.now() + "-" + file.originalname;
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({ storage: storage });
 console.log("serving uploads from :",path.join(__dirname,"uploads"))
 app.use(cors());
 app.use(express.json());

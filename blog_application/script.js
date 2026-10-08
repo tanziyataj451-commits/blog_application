@@ -103,6 +103,10 @@ if(publish){
 
 // PROFILE
 async function loadProfile() {
+    const profileName = document.getElementById("profile-name");
+
+    if (!profileName) return;
+
     try {
         const response = await fetch("http://localhost:3000/profile", {
             headers: {
@@ -110,15 +114,22 @@ async function loadProfile() {
             }
         });
 
+        if (!response.ok) {
+            alert("Please login first.");
+            window.location.href = "login.html";
+            return;
+        }
+
         const user = await response.json();
 
-        console.log("Logged in user:", user);
+        document.getElementById("profile-name").textContent = user.name;
+        document.getElementById("profile-email").textContent = user.email;
 
     } catch (error) {
         console.log(error);
+        alert("Could not load profile.");
     }
 }
-
 // LOGOUT
 function logout() {
     localStorage.removeItem("token");
@@ -282,3 +293,4 @@ async function loadBlogs() {
 }
 
 loadBlogs();
+loadProfile();
