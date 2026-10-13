@@ -323,5 +323,5 @@ app.delete("/blogs/:id", authenticateToken, async (req, res) => {
 });
 // Start server
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log("Server running on https://blog-application-fq9q.onrender.com/");
 });

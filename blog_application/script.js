@@ -6,7 +6,7 @@ form.addEventListener("submit",function(event){
     let email=document.getElementById("email").value
     let password=document.getElementById("password").value
 
-    fetch("http://localhost:3000/login",{
+    fetch("https://blog-application-fq9q.onrender.com/login",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -44,7 +44,7 @@ if(register){
         alert("passwords doesnot match")
         return;
     }
-    fetch("http://localhost:3000/register",{
+    fetch("https://blog-application-fq9q.onrender.com/register",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -83,7 +83,7 @@ if(publish){
         formData.append("category",category)
         formData.append("content",content)
         formData.append("image",image)
-        fetch("http://localhost:3000/blogs", {
+        fetch("https://blog-application-fq9q.onrender.com/blogs", {
     method: "POST",
     headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -108,7 +108,7 @@ async function loadProfile() {
     if (!profileName) return;
 
     try {
-        const response = await fetch("http://localhost:3000/profile", {
+        const response = await fetch("https://blog-application-fq9q.onrender.com/profile", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -158,7 +158,7 @@ async function loadBlogs() {
     if (!blogContainer) return;
 
     try {
-        const response = await fetch("http://localhost:3000/blogs", {
+        const response = await fetch("https://blog-application-fq9q.onrender.com/blogs", {
     headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
@@ -181,7 +181,7 @@ async function loadBlogs() {
             const image = document.createElement("img");
 
             if (blog.image) {
-              image.src = `http://localhost:3000/uploads/${encodeURIComponent(blog.image)}`;
+              image.src = `https://blog-application-fq9q.onrender.com/uploads/${encodeURIComponent(blog.image)}`;
               image.alt = blog.title;
               image.style.width = "100%";
               image.style.maxHeight = "220px";
@@ -226,7 +226,7 @@ async function loadBlogs() {
 
                 try {
                     const response = await fetch(
-                        `http://localhost:3000/blogs/${blog._id}`,
+                        `https://blog-application-fq9q.onrender.com/blogs/${blog._id}`,
                         {
                             method: "PUT",
                             headers: {
@@ -262,7 +262,7 @@ async function loadBlogs() {
                 if (!confirmed) return;
 
                 try {
-                    const response = await fetch(`http://localhost:3000/blogs/${blog._id}`, {
+                    const response = await fetch(`https://blog-application-fq9q.onrender.com/blogs/${blog._id}`, {
     method: "DELETE",
     headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
